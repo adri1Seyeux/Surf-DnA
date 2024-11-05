@@ -10,6 +10,17 @@ interface SurfSpot {
   bestFor: string[];
 }
 
+// Add a helper function to get the parent country name
+const getParentCountry = (id: string): string => {
+  if (id.startsWith('usa-')) return 'United States';
+  if (id.startsWith('indo-')) return 'Indonesia';
+  if (id.startsWith('aus-')) return 'Australia';
+  if (id.startsWith('brazil-')) return 'Brazil';
+  if (id.startsWith('mexico-')) return 'Mexico';
+  if (id.startsWith('new-zealand-')) return 'New Zealand';
+  return '';
+};
+
 const SurfSpotFinder = () => {
   const [location, setLocation] = useState({
     country: '',
@@ -71,16 +82,26 @@ const SurfSpotFinder = () => {
             className="w-full p-2 border rounded-lg bg-white shadow-sm focus:ring-2 focus:ring-blue-500"
           >
             <option value="">Select Country</option>
-            {surfData.map((country) => (
-              <option 
-                key={country.id} 
-                value={country.id}
-                disabled={country.disabled}
-                className={country.disabled ? 'text-gray-400' : ''}
-              >
-                {country.name}
-              </option>
-            ))}
+            {surfData.map((country) => {
+              const parentCountry = getParentCountry(country.id);
+              const displayName = parentCountry 
+                ? `${parentCountry} - ${country.name.trim()}`
+                : country.name;
+              
+              return (
+                <option 
+                  key={country.id} 
+                  value={country.id}
+                  disabled={country.disabled}
+                  style={{
+                    color: country.name.startsWith('\u00A0') ? '#4B5563' : '#111827',
+                    paddingLeft: country.name.startsWith('\u00A0') ? '20px' : '0'
+                  }}
+                >
+                  {country.name.startsWith('\u00A0') ? country.name : displayName}
+                </option>
+              );
+            })}
           </select>
         </div>
 

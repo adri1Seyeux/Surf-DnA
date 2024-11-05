@@ -70,6 +70,7 @@ async function getSpotList(country: string, region: string) {
     model: "gpt-4-turbo-preview",
     response_format: { type: "json_object" },
     temperature: 0.7,
+    max_tokens: 4000
   });
 
   return JSON.parse(completion.choices[0].message.content || '{}');
@@ -107,6 +108,7 @@ export async function POST(request: NextRequest) {
       model: "gpt-4-turbo-preview",
       response_format: { type: "json_object" },
       temperature: 0.7,
+      max_tokens: 4000
     });
 
     console.log('OpenAI response received');

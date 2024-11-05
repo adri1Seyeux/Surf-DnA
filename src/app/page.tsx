@@ -1,4 +1,5 @@
 import SurfSpotFinder from '@/components/ui/SurfSpotFinder';
+import test from 'node:test';
 
 const Page = () => {
   return (
